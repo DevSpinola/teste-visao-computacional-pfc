@@ -4,7 +4,7 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
 # 1. Configurar o Pose Landmarker com o modelo baixado
-base_options = python.BaseOptions(model_asset_path='pose_landmarker_full.task')
+base_options = python.BaseOptions(model_asset_path='pose_landmarker_lite.task')
 options = vision.PoseLandmarkerOptions(
     base_options=base_options,
     num_poses=2,
@@ -14,8 +14,13 @@ options = vision.PoseLandmarkerOptions(
 )
 detector = vision.PoseLandmarker.create_from_options(options)
 
-# 2. Carregar o arquivo de vídeo
-cap = cv2.VideoCapture('before_sunrise_trem.mp4')
+# # 2. Carregar o arquivo de vídeo
+# cap = cv2.VideoCapture('before_sunrise_trem.mp4')
+
+# 2. Abrir a webcam (0 = câmera padrão; tente 1 se houver mais de uma)
+cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    raise RuntimeError("Não foi possível abrir a webcam.")
 
 while cap.isOpened():
     sucesso, frame = cap.read()
