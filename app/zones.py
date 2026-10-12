@@ -1,10 +1,11 @@
 # zones.py
 # Regra: a pessoa pertence ao banco (zona) onde está o meio dos seus ombros.
-# Invasão: um pulso dela entra na zona de OUTRO banco que está ocupado.
+# Invasão: uma mão dela (pulso ou ponta do indicador) entra na zona de OUTRO banco ocupado.
 # Funciona nos dois sentidos (motorista -> passageiro e passageiro -> motorista).
 
 LEFT_SHOULDER, RIGHT_SHOULDER = 11, 12
-LEFT_WRIST, RIGHT_WRIST = 15, 16
+# Pontos da mão: pulsos e pontas dos indicadores (o dedo chega mais longe que o pulso num toque)
+HAND_POINTS = (15, 16, 19, 20)
 
 
 def zone_at(x, y, zones):
@@ -34,11 +35,11 @@ def find_invasions(poses, zones, min_visibility):
     for pose, seat in zip(poses, seats):
         if seat is None:
             continue
-        for wrist_idx in (LEFT_WRIST, RIGHT_WRIST):
-            wrist = pose[wrist_idx]
-            if wrist.visibility < min_visibility:
+        for idx in HAND_POINTS:
+            hand = pose[idx]
+            if hand.visibility < min_visibility:
                 continue
-            target = zone_at(wrist.x, wrist.y, zones)
+            target = zone_at(hand.x, hand.y, zones)
             # Mão no próprio banco ou em banco vazio (ex.: pegar a bolsa) não conta
             if target and target != seat and target in occupied:
                 invasions.add((seat, target))

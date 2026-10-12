@@ -11,7 +11,7 @@ from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 
 import config
-from zones import InvasionTimer, find_invasions, LEFT_WRIST, RIGHT_WRIST, LEFT_SHOULDER, RIGHT_SHOULDER
+from zones import InvasionTimer, find_invasions, HAND_POINTS, LEFT_SHOULDER, RIGHT_SHOULDER
 
 GRAY, GREEN, YELLOW, RED = (180, 180, 180), (0, 255, 0), (0, 255, 255), (0, 0, 255)
 
@@ -49,13 +49,13 @@ def draw(frame, poses, seats, timer):
         cv2.rectangle(frame, (int(x1 * w), int(y1 * h)), (int(x2 * w), int(y2 * h)), color, 2)
         cv2.putText(frame, name, (int(x1 * w) + 5, int(y1 * h) + 25), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 2)
 
-    # Pessoas: banco escrito no meio dos ombros e círculo em cada pulso
+    # Pessoas: banco escrito no meio dos ombros e círculo nos pontos da mão
     for pose, seat in zip(poses, seats):
         mid_x = int((pose[LEFT_SHOULDER].x + pose[RIGHT_SHOULDER].x) / 2 * w)
         mid_y = int((pose[LEFT_SHOULDER].y + pose[RIGHT_SHOULDER].y) / 2 * h)
         cv2.circle(frame, (mid_x, mid_y), 8, YELLOW, -1)
         cv2.putText(frame, seat or 'fora das zonas', (mid_x + 10, mid_y), cv2.FONT_HERSHEY_SIMPLEX, 0.8, YELLOW, 2)
-        for idx in (LEFT_WRIST, RIGHT_WRIST):
+        for idx in HAND_POINTS:
             if pose[idx].visibility >= config.MIN_VISIBILITY:
                 cv2.circle(frame, to_px(pose[idx], w, h), 10, GREEN, -1)
 
