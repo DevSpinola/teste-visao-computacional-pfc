@@ -8,7 +8,7 @@ PROJECT_DIR = APP_DIR.parent
 MODEL_PATH = str(PROJECT_DIR / 'pose_landmarker_full.task')
 
 # Vídeo padrão (pode ser trocado pela linha de comando: python main.py outro.mp4 ou python main.py 0 para webcam)
-VIDEO_PATH = str(APP_DIR / 'uber.mp4')
+VIDEO_PATH = str(APP_DIR / 'ia_tocando_coxa.mp4')
 
 # Confiança mínima do MediaPipe (valores baixos aceitam esqueletos "fantasma")
 MIN_DETECTION_CONFIDENCE = 0.5
@@ -25,9 +25,8 @@ MAX_POSES = 3
 # Cada câmera/vídeo precisa das suas zonas. Gere com: python calibrate.py <video>
 # Valores abaixo: aproximados para uber.mp4 (câmera no para-brisa olhando para trás).
 ZONES = {
-    'motorista':         (0.45, 0.10, 1.00, 1.00),
-    'banco_tras':        (0.12, 0.25, 0.45, 0.80),
-    'passageiro_frente': (0.00, 0.25, 0.12, 1.00),
+    'motorista': (0.41, 0.24, 0.87, 0.86),
+    'passageiro_frente': (0.0, 0.29, 0.41, 1.0),
 }
 
 # Quanto tempo (segundos) um pulso precisa ficar na zona de outra pessoa para virar alerta
